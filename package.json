@@ -1,0 +1,25 @@
+{
+  "name": "coeo-react",
+  "version": "1.0.0",
+  "description": "An online social networking application build on FOSP",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "FOSP",
+    "OSN"
+  ],
+  "author": "Felix Konstantin Maurer",
+  "dependencies": {
+    "material-ui": "^0.15.0-alpha.1",
+    "react": "^0.14.7",
+    "react-dom": "^0.14.7",
+    "react-redux": "^4.4.1",
+    "react-tap-event-plugin": "^0.2.2",
+    "redux": "^3.3.1"
+  },
+  "devDependencies": {
+    "redux-devtools": "^3.1.1",
+    "webpack": "^1.12.14"
+  }
+}
