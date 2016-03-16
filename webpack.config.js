@@ -10,8 +10,10 @@ var loaders = [
         exclude: /node_modules/,
         loader: 'ts-loader'
     }
-]
+];
+
 module.exports = {
+    devtool: "source-map",
     entry: entry,
     output: output,
     module: {
