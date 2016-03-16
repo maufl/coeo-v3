@@ -20,6 +20,10 @@
   },
   "devDependencies": {
     "redux-devtools": "^3.1.1",
-    "webpack": "^1.12.14"
+    "ts-loader": "^0.8.1",
+    "typescript": "^1.8.7",
+    "typings": "^0.7.9",
+    "webpack": "^1.12.14",
+    "webpack-dev-server": "^1.14.1"
   }
 }
