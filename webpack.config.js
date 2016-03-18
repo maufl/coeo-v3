@@ -1,5 +1,5 @@
 
-var entry = './app/app.tsx';
+var entry = './app/bootstrap.tsx';
 var output = {
     path: 'build',
     filename: 'bundle.js'
