@@ -23,7 +23,7 @@ export default class App extends React.Component<any, any> {
             <LeftNav docked={false} open={this.state.sidebarOpen} onRequestChange={open => this.onSetSidebarOpen(open)}>
             </LeftNav>
             <AppBar title="Coeo" onLeftIconButtonTouchTap={this.toggleSidebar.bind(this)} />
-            <div>{this.props.children}</div>
+            {this.props.children}
             </layout.Page>
     }
 }
