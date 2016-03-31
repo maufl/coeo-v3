@@ -1,5 +1,5 @@
 
-var entry = './app/bootstrap.tsx';
+var entry = './app/bootstrap';
 var output = {
     path: 'build',
     filename: 'bundle.js'
@@ -9,6 +9,11 @@ var loaders = [
         test: /\.tsx?$/,
         exclude: /node_modules/,
         loader: 'ts-loader'
+    },
+    {
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        loader: 'babel'
     }
 ];
 var resolve = {
