@@ -27,5 +27,11 @@ module.exports = {
     resolve: resolve,
     module: {
         loaders: loaders
+    },
+    devServer: {
+        hot: true,
+        inline: true,
+        colors: true,
+        progress: true
     }
 }
