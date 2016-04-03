@@ -1,8 +1,8 @@
-import  * as React from 'react';
+import React from 'react';
 import { LeftNav, AppBar } from 'material-ui';
-var injectTapEventPlugin = require('react-tap-event-plugin');
-injectTapEventPlugin();
-var layout = require('react-layout-components');
+import { Page } from 'react-layout-components';
+
+import SideMenu from '../components/side_menu';
 
 export default class App extends React.Component<any, any> {
     constructor(props) {
@@ -19,11 +19,12 @@ export default class App extends React.Component<any, any> {
     }
 
     render() {
-        return <layout.Page>
+        return <Page>
             <LeftNav docked={false} open={this.state.sidebarOpen} onRequestChange={open => this.onSetSidebarOpen(open)}>
+                <SideMenu />
             </LeftNav>
             <AppBar title="Coeo" onLeftIconButtonTouchTap={this.toggleSidebar.bind(this)} />
             {this.props.children}
-            </layout.Page>
+            </Page>
     }
 }

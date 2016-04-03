@@ -14,7 +14,7 @@ class MePage extends React.Component {
     }
 
     render() {
-        let fullName = this.props.socialMe ? this.props.socialMe.data.fullName : '';
+        let { socialMe: { data: { fullName } ={} } ={} } = this.props;
         return (
             <Container maxWidth={900} margin="20px auto">
                 <Card>
