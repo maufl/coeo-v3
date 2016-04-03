@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-class Me extends React.Component {
+class MePage extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -24,4 +24,4 @@ const mapDispatchToProps = (dispatch) => {
     return {}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Me);
+export default connect(mapStateToProps, mapDispatchToProps)(MePage);

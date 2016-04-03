@@ -8,9 +8,9 @@ import { combineReducers, createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 
 import App from './layouts/app';
-import Login from './views/login';
-import About from './views/about';
-import Me from './views/me';
+import LoginPage from './views/login_page';
+import AboutPage from './views/about_page';
+import MePage from './views/me_page';
 
 let reducers = combineReducers({ session, objects, routing: routerReducer });
 let redirectAfterLogin = store => next => action => {
@@ -35,9 +35,9 @@ export default (
         <Router history={history}>
             <Route path="/" component={App}>
                 <IndexRedirect to="/login" />
-                <Route path="login" component={Login} />
-                <Route path="about" component={About} />
-                <Route path="me" component={Me} onEnter={() => {store.dispatch(maybeGet(store.getState().session.user+'/soc/me'))}}/>
+                <Route path="login" component={LoginPage} />
+                <Route path="about" component={AboutPage} />
+                <Route path="me" component={MePage} />
             </Route>
         </Router>
     </Provider>

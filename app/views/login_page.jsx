@@ -1,13 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router';
 import { TextField, Avatar, RaisedButton } from 'material-ui';
 import SocialPerson  from 'material-ui/lib/svg-icons/social/person';
 import { login } from '../state/session';
 import { connect } from 'react-redux';
 import { VBox } from 'react-layout-components';
 
-class Login extends React.Component {
-    constructor(props: LoginProperties) {
+class LoginPage extends React.Component {
+    constructor(props) {
         super(props);
         this.state = {
             user: props.user,
@@ -38,7 +37,6 @@ class Login extends React.Component {
                     onChange={(e) => {this.setState({password: e.target.value})}} />
                 <br />
                 <RaisedButton primary={true} label="Login" onMouseUp={()=>{this.login()}}/><br />
-                <Link to="/about">about</Link>
             </VBox>
         );
     }
@@ -56,4 +54,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
