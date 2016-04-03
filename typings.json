@@ -2,7 +2,8 @@
   "ambientDevDependencies": {
     "material-ui": "registry:dt/material-ui#0.14.4+20160305110713",
     "react": "registry:dt/react#0.14.0+20160314090524",
-    "react-dom": "registry:dt/react-dom#0.14.0+20160314090524"
+    "react-dom": "registry:dt/react-dom#0.14.0+20160314090524",
+    "es6-shim": "registry:dt/es6-shim#0.31.2+20160317120654"
   },
   "devDependencies": {
     "react-router": "registry:npm/react-router#2.0.0+20160214194820"
