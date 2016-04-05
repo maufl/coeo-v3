@@ -5,10 +5,12 @@ import { routerMiddleware, routerReducer, push } from 'react-router-redux'
 
 import { session, LOGIN_SUCCESS } from './state/session';
 import { objects } from './state/objects';
+import { attachments } from './state/attachments';
 
 let reducers = combineReducers({
     session,
     objects,
+    attachments,
     routing: routerReducer
 });
 

@@ -21,7 +21,7 @@ var resolve = {
 }
 
 module.exports = {
-    devtool: "source-map",
+    devtool: "#cheap-module-source-map",
     entry: entry,
     output: output,
     resolve: resolve,

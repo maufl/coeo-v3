@@ -26,7 +26,7 @@ function get(url) {
     }
 }
 
-function getSucceeded(url, object) {
+export function getSucceeded(url, object) {
     return {
         type: GET_SUCCEEDED,
         url,
