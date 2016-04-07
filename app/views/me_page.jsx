@@ -34,14 +34,14 @@ class MePage extends React.Component {
             posts
         } = this.props;
         console.log(posts);
-        let avatar = <Avatar src={profilePhoto ? URL.createObjectURL(profilePhoto.blob) : null}
+        let avatar = <Avatar src={profilePhoto ? profilePhoto.url : null}
                              icon={profilePhoto ? null : <SocialPerson />} />;
         let mediaContent = null;
         if (coverPhoto) {
            mediaContent = <div style={{
                     width: 900,
                     height: 200,
-                    backgroundImage: 'url(' + URL.createObjectURL(coverPhoto.blob) + ')',
+                    backgroundImage: 'url(' + coverPhoto.url + ')',
                     backgroundSize: "cover",
                     backgroundPosition: "center center"
                }} />;

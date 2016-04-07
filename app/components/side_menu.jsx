@@ -1,8 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { ScrollView, VBox } from 'react-layout-components';
+import { Link } from 'react-router';
+import { ScrollView, VBox, Box } from 'react-layout-components';
 import { Avatar } from 'material-ui';
 import SocialPerson  from 'material-ui/lib/svg-icons/social/person';
+import ArrowDropDown from 'material-ui/lib/svg-icons/navigation/arrow-drop-down';
+import ArrowDropUp from 'material-ui/lib/svg-icons/navigation/arrow-drop-up';
+import Menu from 'material-ui/lib/menus/menu';
+import MenuItem from 'material-ui/lib/menus/menu-item';
 
 import { maybeGet } from '../state/objects';
 import { maybeRead } from '../state/attachments';
@@ -10,6 +15,9 @@ import { maybeRead } from '../state/attachments';
 class SideMenu extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            selectedMenu: props.currentUser ? "" : "accounts"
+        };
     }
 
     componentWillMount() {
@@ -30,14 +38,28 @@ class SideMenu extends React.Component {
             socialMe: { data: { fullName } = {}} = {},
             profilePhoto
         } = this.props;
+        let subMenu;
+        if (this.state.selectedMenu === "accounts") {
+            subMenu = <Menu>
+                <MenuItem containerElement={<Link to="/signup" />} primaryText="Signup" />
+            </Menu>;
+        }
         return (
             <ScrollView>
                 <VBox style={ { "backgroundImage": "url('https://unsplash.it/300/200?image=898&gravity=center')", "padding": "16px" } }>
                     <Avatar style={ {"marginTop": "16px" } }
-                            src={profilePhoto ? URL.createObjectURL(profilePhoto.blob) : null}
+                            src={profilePhoto ? profilePhoto.url : null}
                             icon={profilePhoto ?  null : <SocialPerson />} />
-                    <div style={ {"marginTop": "8px"} }>{fullName}</div>
+                    <Box>
+                        <Box flex={1} style={ {"marginTop": "8px"} }>{fullName}</Box>
+                        <Box>
+                            { this.state.selectedMenu === "accounts" ?
+                              <ArrowDropUp onClick={() => this.setState({ selectedMenu: "" })}/>
+                              : <ArrowDropDown onClick={() => this.setState({ selectedMenu: "accounts" })}/>}
+                        </Box>
+                    </Box>
                 </VBox>
+                {subMenu}
             </ScrollView>
         );
     }

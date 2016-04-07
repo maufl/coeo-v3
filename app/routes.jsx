@@ -5,6 +5,7 @@ import store from './store';
 
 import App from './layouts/app';
 import LoginPage from './views/login_page';
+import SignupPage from './views/signup_page';
 import AboutPage from './views/about_page';
 import MePage from './views/me_page';
 
@@ -15,6 +16,7 @@ export default (
         <Route path="/" component={App}>
             <IndexRedirect to="/login" />
             <Route path="login" component={LoginPage} />
+            <Route path="signup" component={SignupPage} />
             <Route path="about" component={AboutPage} />
             <Route path="me" component={MePage} />
         </Route>

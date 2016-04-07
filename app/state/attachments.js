@@ -20,6 +20,7 @@ export function maybeRead(url) {
                         dispatch(getSucceeded(url, object));
                         readWithObject(dispatch, url, object);
                     })
+                    .catch((e) => dispatch(readFailed(url, e)))
             } else {
                 readWithObject(dispatch, url, object)
             }
@@ -71,7 +72,8 @@ export function attachments(state = {}, action) {
         return Object.assign({}, state, {
             [action.url]: {
                 $state: LOADED,
-                blob: action.blob
+                blob: action.blob,
+                url: URL.createObjectURL(action.blob)
             }
         });
     case READ_FAILED:
