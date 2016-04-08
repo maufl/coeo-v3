@@ -9,6 +9,8 @@ import ArrowDropUp from 'material-ui/lib/svg-icons/navigation/arrow-drop-up';
 import Menu from 'material-ui/lib/menus/menu';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 
+import AccountMenu from './account_menu';
+
 import { maybeGet } from '../state/objects';
 import { maybeRead } from '../state/attachments';
 
@@ -40,9 +42,7 @@ class SideMenu extends React.Component {
         } = this.props;
         let subMenu;
         if (this.state.selectedMenu === "accounts") {
-            subMenu = <Menu>
-                <MenuItem containerElement={<Link to="/signup" />} primaryText="Signup" />
-            </Menu>;
+            subMenu = <AccountMenu user={this.props.currentUser} />;
         }
         return (
             <ScrollView>
