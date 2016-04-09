@@ -1,5 +1,5 @@
 import fosp from '../../lib/fosp/fosp';
-import { getSucceeded } from './objects';
+import { getSucceeded, update } from './objects';
 
 const READ_REQUEST = 'READ_REQUEST',
       READ_SUCCEEDED = 'READ_SUCCEEDED',
@@ -28,10 +28,23 @@ export function maybeRead(url) {
     }
 }
 
+export function write(url, file) {
+    return (dispatch) => {
+      let reader = new FileReader();
+      reader.onload = () => {
+          fosp.write(url, reader.result)
+              .then(() => dispatch(readSucceeded(url, file)))
+              .then(() => dispatch(update(url, { attachment: { name: file.name, size: file.size, type: file.type }})))
+      };
+      reader.onerror = (error) => { console.log(error) };
+      reader.readAsArrayBuffer(file);
+    }
+}
+
 function readWithObject(dispatch, url, object) {
     fosp.read(url)
         .then((buffer) => {
-            let blob = new Blob([buffer], { type: object.attachment.type });
+            let blob = new File([buffer], object.attachment.name, { type: object.attachment.type });
             dispatch(readSucceeded(url, blob));
         })
         .catch((e) => dispatch(readFailed(url, e)))

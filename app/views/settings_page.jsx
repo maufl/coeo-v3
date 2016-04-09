@@ -4,7 +4,12 @@ import { VBox } from 'react-layout-components';
 import { TextField, Card, CardText, CardTitle } from 'material-ui';
 
 import { maybeGet, update } from '../state/objects';
-import { maybeRead } from '../state/attachments';
+import { maybeRead, write } from '../state/attachments';
+
+let prevent = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+}
 
 class SettingsPage extends React.Component {
     constructor(props) {
@@ -27,9 +32,18 @@ class SettingsPage extends React.Component {
         this.props.loadSocial(this.props.user);
     }
 
+    updateProfilePhoto(event) {
+        prevent(event);
+        if (!(event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files.length === 1)) {
+            return;
+        }
+        let file = event.dataTransfer.files[0];
+        this.props.writeProfilePhoto(this.props.user, file);
+    }
+
     render() {
         return (
-            <VBox fit center>
+            <VBox center>
                 <Card style={{width: 900}}>
                     <CardTitle actAsExpander={true} showExpandableButton={true} title="Personal information" />
                     <CardText expandable={true}>
@@ -46,6 +60,15 @@ class SettingsPage extends React.Component {
                         onChange={(e) => {this.setState({motto: e.target.value})}}
                         onBlur={() => this.props.updateMotto(this.props.user, this.state.motto)}
                     />
+                    </CardText>
+                </Card>
+                <Card style={{width: 900}}>
+                    <CardTitle actAsExpander={true} showExpandableButton={true} title="Photos" />
+                    <CardText expandable={true}>
+                        <img style={{maxWidth: 900}}
+                             src={this.state.profilePhoto.url}
+                             onDragOver={prevent}
+                             onDrop={(e) => this.updateProfilePhoto(e)} />
                     </CardText>
                 </Card>
             </VBox>
@@ -80,6 +103,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         updateMotto: (user, motto) => {
             dispatch(update(user+'/soc/me/motto', { data: motto }))
+        },
+        writeProfilePhoto: (user, blob) => {
+            dispatch(write(`${user}/soc/photos/profile`, blob))
         }
     };
 }
