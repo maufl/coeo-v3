@@ -10,6 +10,7 @@ import { maybeRead } from '../state/attachments';
 import { maybeList } from '../state/children';
 
 import PostCard from '../components/post_card';
+import UserAvatar from '../components/user_avatar';
 
 class MePage extends React.Component {
     constructor(props) {
@@ -24,12 +25,10 @@ class MePage extends React.Component {
         let {
             me: { data: { fullName } ={} } ={},
             motto: { data: motto } ={},
-            profilePhoto,
             coverPhoto,
             postList
         } = this.props;
-        let avatar = <Avatar src={profilePhoto ? profilePhoto.url : null}
-                             icon={profilePhoto ? null : <SocialPerson />} />;
+        let avatar = <UserAvatar user={this.props.user} />;
         let mediaContent = null;
         if (coverPhoto) {
            mediaContent = <div style={{
@@ -43,7 +42,7 @@ class MePage extends React.Component {
             mediaContent = <img src={"https://unsplash.it/900/200"} />;
         }
         return (
-            <VBox maxWidth={900} style={{ margin: "20px auto"}}>
+            <VBox maxWidth={900} style={{ margin: "8px auto"}}>
                 <Card style={{width: "100%"}}>
                     <CardMedia
                         overlay={<CardHeader avatar={avatar} title={fullName} subtitle={motto} />} >
@@ -51,7 +50,7 @@ class MePage extends React.Component {
                     </CardMedia>
                 </Card>
                 <VBox>
-                {(postList || []).map( (post, index) =>  <PostCard postURL={post} key={index} />)}
+                {(postList || []).map( (post, index) =>  <PostCard style={{marginTop: "16px"}} postURL={post} key={index} />)}
                 </VBox>
             </VBox>
         );
@@ -68,7 +67,6 @@ const mapStateToProps = (state) => {
         user: user,
         me: state.objects[user+'/soc/me'],
         motto: state.objects[user+'/soc/me/motto'],
-        profilePhoto: state.attachments[user+'/soc/photos/profile'],
         coverPhoto: state.attachments[user+'/soc/photos/cover'],
         postList
     };
@@ -79,7 +77,6 @@ const mapDispatchToProps = (dispatch) => {
         loadSocial: (user) => {
             dispatch(maybeGet(user+'/soc/me'));
             dispatch(maybeGet(user+'/soc/me/motto'));
-            dispatch(maybeRead(user+'/soc/photos/profile'));
             dispatch(maybeRead(user+'/soc/photos/cover'));
             dispatch(maybeList(user+'/soc/feed/blog'));
         }

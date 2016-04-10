@@ -1,9 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { Card, CardText } from 'material-ui/lib/card';
+import { Card, CardText, CardHeader } from 'material-ui/lib/card';
 
 import { maybeGet } from '../state/objects';
+
+import UserAvatar from './user_avatar';
 
 class PostCard extends React.Component {
     constructor(props) {
@@ -15,10 +17,26 @@ class PostCard extends React.Component {
     }
 
     render() {
+        let {
+            style,
+            post: {
+                owner: author,
+                data: text
+            }={},
+            author: {
+                data: {
+                    fullName: authorName
+                }={}
+            }={}
+        } = this.props;
         return (
-            <Card>
+            <Card style={style}>
+                <CardHeader
+                    avatar={<UserAvatar user={author}/>}
+                    title={authorName}
+                    subtitle={"TODO: Timestamp"} />
                 <CardText>
-                    {this.props.post.data}
+                    {text}
                 </CardText>
             </Card>
         );
@@ -26,9 +44,12 @@ class PostCard extends React.Component {
 }
 
 const mapStateToProps = (state, props) => {
-    return {
-        post: state.objects[props.postURL]
-    };
+    let post = state.objects[props.postURL],
+        author;
+    if (post) {
+        author = state.objects[`${post.owner}/soc/me`];
+    }
+    return { post, author };
 }
 
 const mapDispatchToProps = (dispatch, props) => {

@@ -10,6 +10,7 @@ import Menu from 'material-ui/lib/menus/menu';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 
 import AccountMenu from './account_menu';
+import UserAvatar from './user_avatar';
 
 import { maybeGet } from '../state/objects';
 import { maybeRead } from '../state/attachments';
@@ -38,7 +39,6 @@ class SideMenu extends React.Component {
     render() {
         let {
             socialMe: { data: { fullName } = {}} = {},
-            profilePhoto
         } = this.props;
         let subMenu;
         if (this.state.selectedMenu === "accounts") {
@@ -48,9 +48,7 @@ class SideMenu extends React.Component {
             <ScrollView>
                 <VBox style={ { "backgroundImage": "url('https://unsplash.it/300/200?image=898&gravity=center')", "padding": "16px" } }>
                     <Link to="/me">
-                        <Avatar style={ {"marginTop": "16px" } }
-                                src={profilePhoto ? profilePhoto.url : null}
-                                icon={profilePhoto ?  null : <SocialPerson />} />
+                        <UserAvatar user={this.props.currentUser} style={ {"marginTop": "16px" } } />
                     </Link>
                     <Box>
                         <Box flex={1} style={ {"marginTop": "8px"} }>{fullName}</Box>
@@ -75,7 +73,6 @@ let mapStateToProps = state => {
     return {
         currentUser: user,
         socialMe: state.objects[user+'/soc/me'],
-        profilePhoto: state.attachments[user+'/soc/photos/profile']
     }
 }
 
@@ -83,7 +80,6 @@ let mapDispatchToProps = dispatch => {
     return {
         loadSocial: user => {
             dispatch(maybeGet(user+'/soc/me'));
-            dispatch(maybeRead(user+'/soc/photos/profile'));
         }
     }
 }
