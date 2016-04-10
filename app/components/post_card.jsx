@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import moment from 'moment';
+
 import { Card, CardText, CardHeader } from 'material-ui/lib/card';
 
 import { maybeGet } from '../state/objects';
@@ -20,6 +22,7 @@ class PostCard extends React.Component {
         let {
             style,
             post: {
+                created: postCreated,
                 owner: author,
                 data: text
             }={},
@@ -29,12 +32,13 @@ class PostCard extends React.Component {
                 }={}
             }={}
         } = this.props;
+        let time = moment(postCreated).fromNow();
         return (
             <Card style={style}>
                 <CardHeader
                     avatar={<UserAvatar user={author}/>}
                     title={authorName}
-                    subtitle={"TODO: Timestamp"} />
+                    subtitle={time} />
                 <CardText>
                     {text}
                 </CardText>

@@ -14,6 +14,7 @@
   "author": "Felix Konstantin Maurer",
   "dependencies": {
     "material-ui": "^0.15.0-alpha.1",
+    "moment": "^2.12.0",
     "react": "^0.14.7",
     "react-dom": "^0.14.7",
     "react-layout-components": "^2.2.0",
