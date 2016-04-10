@@ -9,6 +9,8 @@ import { maybeGet } from '../state/objects';
 import { maybeRead } from '../state/attachments';
 import { maybeList } from '../state/children';
 
+import PostCard from '../components/post_card';
+
 class MePage extends React.Component {
     constructor(props) {
         super(props);
@@ -18,22 +20,14 @@ class MePage extends React.Component {
         this.props.loadSocial(this.props.user);
     }
 
-    shouldComponentUpdate(nextProps) {
-        if (this.props.postList !== nextProps.postList && nextProps.postList) {
-            this.props.loadPosts(nextProps.user, nextProps.postList);
-        }
-        return true;
-    }
-
     render() {
         let {
             me: { data: { fullName } ={} } ={},
             motto: { data: motto } ={},
             profilePhoto,
             coverPhoto,
-            posts
+            postList
         } = this.props;
-        console.log(posts);
         let avatar = <Avatar src={profilePhoto ? profilePhoto.url : null}
                              icon={profilePhoto ? null : <SocialPerson />} />;
         let mediaContent = null;
@@ -57,9 +51,7 @@ class MePage extends React.Component {
                     </CardMedia>
                 </Card>
                 <VBox>
-                {(posts || []).map( (post, index) => {
-                     return <Card key={index}><CardText>{post.data}</CardText></Card>;
-                 })}
+                {(postList || []).map( (post, index) =>  <PostCard postURL={post} key={index} />)}
                 </VBox>
             </VBox>
         );
@@ -72,17 +64,12 @@ const mapStateToProps = (state) => {
         return {};
     }
     let postList = state.children[user+'/soc/feed/blog'];
-    let posts;
-    if (postList) {
-        posts = postList.map( name => state.objects[user+'/soc/feed/blog/'+name]).filter(post => !!post);
-    }
     return {
         user: user,
         me: state.objects[user+'/soc/me'],
         motto: state.objects[user+'/soc/me/motto'],
         profilePhoto: state.attachments[user+'/soc/photos/profile'],
         coverPhoto: state.attachments[user+'/soc/photos/cover'],
-        posts,
         postList
     };
 }
@@ -95,9 +82,6 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(maybeRead(user+'/soc/photos/profile'));
             dispatch(maybeRead(user+'/soc/photos/cover'));
             dispatch(maybeList(user+'/soc/feed/blog'));
-        },
-        loadPosts: (user, postList) => {
-            postList.forEach(post => dispatch(maybeGet(user+'/soc/feed/blog/'+post)));
         }
     };
 }

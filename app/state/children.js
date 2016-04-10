@@ -13,7 +13,7 @@ export function maybeList(url) {
 
         if (!children || children.$state === LOADING_FAILED) {
             fosp.list(url)
-                .then((children) => dispatch(listSucceeded(url, children)))
+                .then((children) => dispatch(listSucceeded(url, children.map(child => `${url}/${child}`))))
                 .catch((e) => dispatch(listFailed(url, e)));
         }
     }
