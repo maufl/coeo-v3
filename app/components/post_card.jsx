@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import ReactMarkdown from 'react-markdown';
 
 import moment from 'moment';
 
@@ -40,7 +41,7 @@ class PostCard extends React.Component {
                     title={authorName}
                     subtitle={time} />
                 <CardText>
-                    {text}
+                    <ReactMarkdown source={text || ''}/>
                 </CardText>
             </Card>
         );

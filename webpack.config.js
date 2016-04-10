@@ -14,6 +14,10 @@ var loaders = [
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'babel'
+    },
+    {
+        test: /\.json$/,
+        loader: 'json'
     }
 ];
 var resolve = {
@@ -33,5 +37,10 @@ module.exports = {
         inline: true,
         colors: true,
         progress: true
+    },
+    devServer: {
+        stats: {
+            chunkModules: false
+        }
     }
 }
