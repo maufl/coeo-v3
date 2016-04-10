@@ -8,7 +8,9 @@ import { maybeRead } from '../state/attachments';
 
 class UserAvatar extends React.Component {
     componentWillMount() {
-        this.props.loadProfilePhoto()
+        if (this.props.user) {
+            this.props.loadProfilePhoto();
+        }
     }
 
     render() {

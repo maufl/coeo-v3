@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { VBox } from 'react-layout-components';
-import { TextField, Card, CardText, CardTitle } from 'material-ui';
+import { Card, CardText, CardTitle } from 'material-ui/lib/card';
+import TextField from 'material-ui/lib/TextField';
 
 import { maybeGet, update } from '../state/objects';
 import { maybeRead, write } from '../state/attachments';

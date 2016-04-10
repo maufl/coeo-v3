@@ -1,9 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Card, CardHeader, CardMedia, CardText } from 'material-ui';
+import { Card, CardHeader, CardMedia, CardText } from 'material-ui/lib/card';
 import { Container, VBox } from 'react-layout-components';
-import { Avatar } from 'material-ui';
-import SocialPerson  from 'material-ui/lib/svg-icons/social/person';
 
 import { maybeGet } from '../state/objects';
 import { maybeRead } from '../state/attachments';

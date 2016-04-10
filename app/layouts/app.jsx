@@ -1,5 +1,6 @@
 import React from 'react';
-import { LeftNav, AppBar } from 'material-ui';
+import LeftNav from 'material-ui/lib/left-nav';
+import AppBar from 'material-ui/lib/app-bar';
 import { VBox, ScrollView } from 'react-layout-components';
 
 import SideMenu from '../components/side_menu';

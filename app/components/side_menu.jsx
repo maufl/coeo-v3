@@ -2,8 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { ScrollView, VBox, Box } from 'react-layout-components';
-import { Avatar } from 'material-ui';
-import SocialPerson  from 'material-ui/lib/svg-icons/social/person';
 import ArrowDropDown from 'material-ui/lib/svg-icons/navigation/arrow-drop-down';
 import ArrowDropUp from 'material-ui/lib/svg-icons/navigation/arrow-drop-up';
 import Menu from 'material-ui/lib/menus/menu';

@@ -1,9 +1,14 @@
 import React from 'react';
-import { TextField, Avatar, RaisedButton } from 'material-ui';
-import SocialPerson  from 'material-ui/lib/svg-icons/social/person';
-import { signup } from '../state/session';
 import { connect } from 'react-redux';
+
+import TextField from 'material-ui/lib/TextField';
+import RaisedButton from 'material-ui/lib/raised-button';
+import Avatar from 'material-ui/lib/avatar';
+import SocialPerson  from 'material-ui/lib/svg-icons/social/person';
+
 import { VBox } from 'react-layout-components';
+
+import { signup } from '../state/session';
 
 class SignupPage extends React.Component {
     constructor(props) {
