@@ -22,9 +22,7 @@ class SettingsPage extends React.Component {
         } = this.props;
         this.state = {
             fullName,
-            motto,
-            profilePhoto,
-            coverPhoto
+            motto
         };
     }
 
@@ -39,6 +37,15 @@ class SettingsPage extends React.Component {
         }
         let file = event.dataTransfer.files[0];
         this.props.writeProfilePhoto(this.props.user, file);
+    }
+
+    updateCoverPhoto(event) {
+        prevent(event);
+        if (!(event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files.length === 1)) {
+            return;
+        }
+        let file = event.dataTransfer.files[0];
+        this.props.writeCoverPhoto(this.props.user, file);
     }
 
     render() {
@@ -65,10 +72,16 @@ class SettingsPage extends React.Component {
                 <Card style={{width: 900}}>
                     <CardTitle actAsExpander={true} showExpandableButton={true} title="Photos" />
                     <CardText expandable={true}>
-                        <img style={{maxWidth: 900}}
-                             src={this.state.profilePhoto.url}
+                        <h5>Profile photo</h5>
+                        <img style={{maxWidth: 200, maxHeight: 200}}
+                             src={this.props.profilePhoto.url}
                              onDragOver={prevent}
                              onDrop={(e) => this.updateProfilePhoto(e)} />
+                        <h5>Cover photo</h5>
+                        <img style={{maxWidth: 200, maxHeight: 200}}
+                             src={this.props.coverPhoto.url}
+                             onDragOver={prevent}
+                             onDrop={(e) => this.updateCoverPhoto(e)} />
                     </CardText>
                 </Card>
             </VBox>
@@ -106,7 +119,8 @@ const mapDispatchToProps = (dispatch) => {
         },
         writeProfilePhoto: (user, blob) => {
             dispatch(write(`${user}/soc/photos/profile`, blob))
-        }
+        },
+        writeCoverPhoto: (user, blob) => dispatch(write(`${user}/soc/photos/cover`, blob))
     };
 }
 

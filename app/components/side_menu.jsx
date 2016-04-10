@@ -47,9 +47,11 @@ class SideMenu extends React.Component {
         return (
             <ScrollView>
                 <VBox style={ { "backgroundImage": "url('https://unsplash.it/300/200?image=898&gravity=center')", "padding": "16px" } }>
-                    <Avatar style={ {"marginTop": "16px" } }
-                            src={profilePhoto ? profilePhoto.url : null}
-                            icon={profilePhoto ?  null : <SocialPerson />} />
+                    <Link to="/me">
+                        <Avatar style={ {"marginTop": "16px" } }
+                                src={profilePhoto ? profilePhoto.url : null}
+                                icon={profilePhoto ?  null : <SocialPerson />} />
+                    </Link>
                     <Box>
                         <Box flex={1} style={ {"marginTop": "8px"} }>{fullName}</Box>
                         <Box>
