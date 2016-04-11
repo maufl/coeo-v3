@@ -1,11 +1,13 @@
 import fosp from '../../lib/fosp/fosp';
+import { list }  from './children';
 
 const GET_REQUEST = 'GET_REQUEST', GET_SUCCEEDED = 'GET_SUCCEEDED', GET_FAILED = 'GET_FAILED';
 const UPDATED = 'UPDATED';
+const CREATED = 'CREATED';
 
 const LOADED = 'LOADED', LOADING = 'LOADING', LOADING_FAILED = 'LOADING_FAILED';
 
-export function maybeGet(url: string) {
+export function maybeGet(url) {
     return (dispatch, getState) => {
         let state = getState();
         let object = state.objects[url] || {};
@@ -24,6 +26,17 @@ export function update(url, object) {
     return (dispatch) => {
         fosp.patch(url, object)
             .then((object) => dispatch(updated(url, object)))
+    }
+}
+
+export function create(url, object) {
+    return (dispatch) => {
+        fosp.create(url, object)
+            .then((object) => {
+                let parent = url.split('/').slice(0, -1).join('/');
+                dispatch(created(url, object));
+                dispatch(list(parent));
+            })
     }
 }
 
@@ -58,6 +71,14 @@ function updated(url, object) {
     }
 }
 
+function created(url, object) {
+    return {
+        type: CREATED,
+        url,
+        object
+    }
+}
+
 export function objects(state = {}, action) {
     switch (action.type) {
     case GET_REQUEST:
@@ -80,7 +101,14 @@ export function objects(state = {}, action) {
             }
         });
     case UPDATED:
-        let object = Object.assign({}, action.object, {
+        var object = Object.assign({}, action.object, {
+            $state: LOADED
+        });
+        return Object.assign({}, state, {
+            [action.url]: object
+        })
+    case CREATED:
+        var object = Object.assign({}, action.object, {
             $state: LOADED
         });
         return Object.assign({}, state, {

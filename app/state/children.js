@@ -12,14 +12,21 @@ export function maybeList(url) {
         let children = state.children[url];
 
         if (!children || children.$state === LOADING_FAILED) {
-            fosp.list(url)
-                .then((children) => dispatch(listSucceeded(url, children.map(child => `${url}/${child}`))))
-                .catch((e) => dispatch(listFailed(url, e)));
+            dispatch(list(url));
         }
     }
 }
 
-function list(url) {
+export function list(url) {
+    return (dispatch) => {
+        dispatch(listRequest(url));
+        fosp.list(url)
+            .then((children) => dispatch(listSucceeded(url, children.map(child => `${url}/${child}`))))
+            .catch((e) => dispatch(listFailed(url, e)));
+    }
+}
+
+function listRequest(url) {
     return {
         type: LIST_REQUEST,
         url
