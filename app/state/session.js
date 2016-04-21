@@ -47,11 +47,9 @@ export function signup(user, password) {
     }
 }
 
-function loginRequest(user: string, password: string) {
+function loginRequest() {
     return {
-        type: LOGIN_REQUEST,
-        user,
-        password
+        type: LOGIN_REQUEST
     }
 }
 
@@ -87,9 +85,7 @@ export function session(state = { state: OFFLINE }, action): Object {
     switch (action.type) {
     case LOGIN_REQUEST:
         return {
-            state: PENDING,
-            user: action.user,
-            password: action.password
+            state: PENDING
         }
     case LOGIN_SUCCESS:
         return {

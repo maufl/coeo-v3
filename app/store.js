@@ -18,10 +18,11 @@ let reducers = combineReducers({
 
 
 let redirectAfterLogin = store => next => action => {
+    const result = next(action);
     if (action.type === LOGIN_SUCCESS) {
         store.dispatch(push('/me'))
     }
-    return next(action);
+    return result;
 }
 
 let logger = store => next => action => {
