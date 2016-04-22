@@ -88,8 +88,8 @@ export default class Connection extends EventEmitter {
       ws.onopen = () => {
         resolve(new Connection(ws));
       };
-      ws.onerror = () => {
-        reject();
+      ws.onerror = (e) => {
+        reject(e);
       };
     });
   }

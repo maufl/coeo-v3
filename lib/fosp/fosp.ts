@@ -6,7 +6,7 @@ import {URL as FOSPURL} from './url';
 import {EventEmitter} from './events';
 import {FospObject} from './object';
 
-class FospService extends EventEmitter {
+export class FospService extends EventEmitter {
     currentUser: string;
     connection: Connection = null;
     connecting: boolean = false;
