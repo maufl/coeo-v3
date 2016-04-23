@@ -1,32 +1,20 @@
 //Everything message related
-import { EventEmitter } from './events';
 
-interface HeaderMap {
+export interface Header {
   [key: string]: string
 }
 
-export interface MessageOptions {
-  header?: HeaderMap,
-  body?: (Object|ArrayBuffer)
+export interface Message {
+  header?: Header,
+  body?: (Object|Blob)
 }
 
-export class Message extends EventEmitter {
-  header: HeaderMap;
-  body: (Object|ArrayBuffer);
-
-  constructor(msg: MessageOptions) {
-    super();
-    this.header = msg.header || {};
-    this.body = msg.body || null;
-  }
-
-  toString() {
-    if (this.body instanceof ArrayBuffer || this.body instanceof Uint8Array)
-      return this.short() + ' :: [binary data]';
-    return this.short() + ' :: ' + JSON.stringify(this.body);
-  }
-
-  short() {
-    throw new Error('short() must be implemented by child class');
-  }
+export const headerToString = (header: Header) => {
+    let parts = [];
+    for (let key in header) {
+        parts.push(`${key}: ${header[key]};`);
+    }
+    return parts.join(' ');
 }
+
+export const messageToString = (msg: Message) => `${headerToString(msg.header)} :: ${msg.body instanceof Blob ? '[binary data]' : JSON.stringify(msg.body)}`

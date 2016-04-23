@@ -1,6 +1,6 @@
-import Connection from './connection';
+import BackgroundConnection from './background-connection';
 import {SUCCEEDED, FAILED} from './response';
-import {Request, RequestOptions, AUTH, GET, READ, LIST, CREATE, WRITE, PATCH} from './request';
+import {Request, Method, AUTH, GET, READ, LIST, CREATE, WRITE, PATCH} from './request';
 import {Response} from './response';
 import {URL as FOSPURL} from './url';
 import {EventEmitter} from './events';
@@ -8,12 +8,12 @@ import {FospObject} from './object';
 
 export class FospService extends EventEmitter {
     currentUser: string;
-    connection: Connection = null;
+    connection: BackgroundConnection = null;
     connecting: boolean = false;
 
     open(domain: string) {
         this.connecting = true;
-        return Connection.open({scheme: 'ws', host: domain}).then((con: Connection) => {
+        return BackgroundConnection.open({scheme: 'ws', host: domain}).then((con: BackgroundConnection) => {
             this.connection = con
             this.connecting = false;
             this.emit('connected');
@@ -44,68 +44,46 @@ export class FospService extends EventEmitter {
                 'initial-response': initialResponse
             }
         }
-        return this.sendRequest({method: AUTH, body: body}).then(() => {
+        return this.sendRequest({method: AUTH, resource: '*', body: body}).then(() => {
             this.currentUser = username;
             this.emit('authenticated');
             return true
         });
     }
 
-    get(path: string): Promise<FospObject> {
-      return this.sendRequest({
-        method: GET,
-        url: new FOSPURL(path)
-      });
+    get(resource: string): Promise<FospObject> {
+        return this.sendRequest({ method: GET, resource });
     }
 
-    patch(url: string, body: any) {
-      return this.sendRequest({
-        method: PATCH,
-        url: new FOSPURL(url),
-        body: body
-      });
+    patch(resource: string, body: Object) {
+        return this.sendRequest({ method: PATCH, resource, body });
     }
 
-    list(url: string) {
-      return this.sendRequest({
-        method: LIST,
-        url: new FOSPURL(url)
-      });
+    list(resource: string): Promise<string[]> {
+      return this.sendRequest({ method: LIST, resource });
     }
 
-    read(url: string): Promise<ArrayBuffer> {
-      return this.sendRequest({
-        method: READ,
-        url: new FOSPURL(url)
-      });
+    read(resource: string): Promise<Blob> {
+      return this.sendRequest({ method: READ, resource });
     }
 
-    write(url: string, body: any) {
-      return this.sendRequest({
-        method: WRITE,
-        url: new FOSPURL(url),
-        body: body
-      });
+    write(resource: string, body: Blob) {
+      return this.sendRequest({ method: WRITE, resource, body });
     }
 
-    create(url: string, body: any) {
-      return this.sendRequest({
-        method: CREATE,
-        url: new FOSPURL(url),
-        body: body
-      });
+    create(resource: string, body: Object) {
+      return this.sendRequest({ method: CREATE, resource, body });
     }
 
-    sendRequest(options: RequestOptions): Promise<any> {
+    sendRequest(req: Request): Promise<any> {
         if (this.connection === null && !this.connecting) {
             return Promise.reject("Not connected");
         }
-        var req = new Request(options);
         return this.awaitConnection().then(() => {
             return this.connection.sendRequest(req);
         }).then((response: Response) => {
             if (response.status === FAILED) {
-                return Promise.reject("Could not " + options.method + " " + options.url + ", code " + response.code);
+                return Promise.reject("Could not " + req.method + " " + req.resource + ", code " + response.code);
             }
             return response.body;
         })

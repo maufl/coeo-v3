@@ -1,56 +1,27 @@
 // Request class
-import { Message, MessageOptions } from './message';
-import { URL } from './url';
+import { Message, messageToString } from './message';
 
-export const OPTIONS = "OPTIONS",
-AUTH = "AUTH",
-GET = "GET",
-LIST = "LIST",
-CREATE = "CREATE",
-PATCH = "PATCH",
-DELETE = "DELETE",
-READ = "READ",
-WRITE = "WRITE";
+export type Method = "OPTIONS" | "AUTH" | "GET" | "LIST" | "CREATE" | "PATCH" | "DELETE" | "READ" | "WRITE";
+export const OPTIONS: Method = "OPTIONS",
+AUTH: Method = "AUTH",
+GET: Method = "GET",
+LIST: Method = "LIST",
+CREATE: Method = "CREATE",
+PATCH: Method = "PATCH",
+DELETE: Method = "DELETE",
+READ: Method = "READ",
+WRITE: Method = "WRITE";
+export const Methods: string[] = [OPTIONS, AUTH, GET, LIST, CREATE, PATCH, DELETE, READ, WRITE];
 
-export var Methods = [OPTIONS, AUTH, GET, LIST, CREATE, PATCH, DELETE, READ, WRITE];
-
-export interface RequestOptions extends MessageOptions {
-  method?: string,
-  url?: URL
+export interface Request extends Message {
+  method: Method,
+  resource: string
 }
 
-export class Request extends Message {
-  method: string;
-  url: URL;
+export const requestToString = (req: Request) => `${req.method} ${req.resource} :: ${messageToString(req)}`
 
-  constructor(msg: RequestOptions) {
-    super(msg);
-    this.method = msg.method || '';
-    this.url = msg.url || null;
-  }
-
-  validate() {
-    // Sanity check of message
-    if (!(this instanceof Request)) {
-      throw new Error("This request is no request!");
+export const validateRequest = (req: Request) => {
+    if (req.method === WRITE && !(req.body instanceof Blob)) {
+        throw new Error("Invalid body for WRITE request");
     }
-    if (typeof(this.method) !== "string" || Methods.indexOf(this.method) < 0) {
-      throw new Error("Unknown request: " + this.method);
-    }
-    if (this.method === WRITE && this.body !== null && ! (this.body instanceof ArrayBuffer)) {
-      throw new Error("Invalid body for WRITE request: " + typeof this.body);
-    }
-    if (typeof this.url !== "object") {
-      throw new Error("Invalid request url: " + this.url);
-    }
-    if (typeof(this.header) !== 'object') {
-      throw new Error("Invalid headers object: " + this.header);
-    }
-  }
-
-  short() {
-    var url = this.url ? this.url.toString() : '*';
-    return [this.method, url].join(" ");
-  }
-
 }
