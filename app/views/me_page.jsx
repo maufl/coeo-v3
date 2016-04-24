@@ -61,12 +61,12 @@ class MePage extends React.Component {
             <FlatButton label="Post" primary={true} onTouchTap={()=>this.createPost()} />
         ];
         let postDialog = (
-            <Dialog title="New post"
+            <Dialog title="Submit new post"
                     modal={false}
                     open={this.state.postDialogOpen}
                     onRequestClose={()=>this.setState({postDialogOpen: false})}
                     actions={postActions}>
-                <TextField name="newPostText" multiLine={true} rows={3} maxRows={6} value={this.state.newPostText} onChange={(e) => this.setState({newPostText: e.target.value})} />
+                <TextField name="newPostText" fullWidth={true} floatingLabelText="Write something witty .." multiLine={true} rows={3} maxRows={6} value={this.state.newPostText} onChange={(e) => this.setState({newPostText: e.target.value})} />
             </Dialog>
         );
         return (
