@@ -16,12 +16,13 @@ class UserAvatar extends React.Component {
     render() {
         let {
             profilePhoto,
-            style
+            style,
+            size
         } = this.props;
         if (profilePhoto) {
-            return <Avatar style={style} src={profilePhoto.url} />;
+            return <Avatar size={size} style={style} src={profilePhoto.url} />;
         } else {
-            return <Avatar style={style} icon={<SocialPerson />} />;
+            return <Avatar size={size} style={style} icon={<SocialPerson />} />;
         }
     }
 }

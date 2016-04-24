@@ -34,12 +34,14 @@ class Comment extends React.Component {
         } = this.props;
         let time = moment(commentCreated).fromNow();
         return (
-            <VBox style={style}>
+            <VBox style={{style}}>
                 <CardHeader
-                    avatar={<UserAvatar user={author}/>}
+                    avatar={<UserAvatar size={32} user={author}/>}
                     title={authorName}
-                    subtitle={time} />
-                <CardText>
+                    subtitle={time}
+                    style={{paddingBottom: 0}} />
+                <CardText
+                    style={{paddingTop: 0}}>
                     <ReactMarkdown source={text || ''}/>
                 </CardText>
             </VBox>

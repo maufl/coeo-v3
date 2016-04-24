@@ -5,9 +5,13 @@ import ReactMarkdown from 'react-markdown';
 import moment from 'moment';
 
 import { Card, CardText, CardHeader } from 'material-ui/lib/card';
+import Paper from 'material-ui/lib/paper';
 import Divider from 'material-ui/lib/divider';
 import TextField from 'material-ui/lib/TextField';
 import RaisedButton from 'material-ui/lib/raised-button';
+import { grey100, grey300 } from 'material-ui/lib/styles/colors';
+
+import { Box } from 'react-layout-components';
 
 import { maybeGet, create } from '../state/objects';
 import { maybeList } from '../state/children';
@@ -52,20 +56,29 @@ class PostCard extends React.Component {
         let time = moment(postCreated).fromNow();
         return (
             <Card style={style}>
-                <CardHeader
-                    avatar={<UserAvatar user={author}/>}
-                    title={authorName}
-                    subtitle={time} />
-                <CardText>
-                    <ReactMarkdown source={text || ''}/>
-                </CardText>
-                <Divider />
-                {(comments || []).map((commentURL) => <Comment commentURL={commentURL} />)}
-                <CardText>
-                    <TextField style={{marginRight: 24}} name="newCommentText" multiLine={true} rows={2} maxRows={4}
-                               value={this.state.newCommentText} onChange={(e) => this.setState({newCommentText: e.target.value})} />
-                    <RaisedButton primary={true} label="comment" onTouchTap={() => this.postComment()} />
-                </CardText>
+                <Box>
+                    <Box column flex={1}>
+                        <CardHeader
+                            avatar={<UserAvatar user={author}/>}
+                            title={authorName}
+                            subtitle={time}
+                            style={{paddingBottom: 0}} />
+                        <CardText
+                            style={{paddingTop: 0}}>
+                            <ReactMarkdown source={text || ''}/>
+                        </CardText>
+                    </Box>
+                    <Box column flex={1} style={{background: grey100, borderLeft: `1px solid ${grey300}`}}>
+                        {(comments || []).map((commentURL) => <Comment commentURL={commentURL} />)}
+                        { comments && comments.length > 0 ? <Divider /> : null }
+                        <CardText>
+                            <TextField name="newCommentText" multiLine={true} rows={2} maxRows={4}
+                                       fullWidth={true} floatingLabelText="Add a comment"
+                                       value={this.state.newCommentText} onChange={(e) => this.setState({newCommentText: e.target.value})} />
+                            { this.state.newCommentText ? <RaisedButton primary={true} label="post comment" onTouchTap={() => this.postComment()} /> : null }
+                        </CardText>
+                    </Box>
+                </Box>
             </Card>
         );
     }
