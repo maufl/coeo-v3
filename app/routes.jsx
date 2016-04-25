@@ -9,6 +9,7 @@ import SignupPage from './views/signup_page';
 import AboutPage from './views/about_page';
 import MePage from './views/me_page';
 import SettingsPage from './views/settings_page';
+import UserPage from './views/user_page';
 
 let history = syncHistoryWithStore(hashHistory, store);
 
@@ -20,6 +21,7 @@ export default (
             <Route path="signup" component={SignupPage} />
             <Route path="about" component={AboutPage} />
             <Route path="me" component={MePage} />
+            <Route path="u/:user" component={UserPage} />
             <Route path="settings" component={SettingsPage} />
         </Route>
     </Router>

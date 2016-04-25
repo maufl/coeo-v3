@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import _ from 'lodash';
 
 import AppBar from 'material-ui/lib/app-bar';
@@ -43,6 +44,7 @@ class ApplicationBar extends React.Component {
                 value: (
                     <MenuItem
                         primaryText={fullName || friend}
+                        containerElement={<Link to={`/u/${friend}`} />}
                     />
                 )
             }
