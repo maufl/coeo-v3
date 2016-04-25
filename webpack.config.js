@@ -1,4 +1,7 @@
 var webpack = require('webpack');
+var process = require('process');
+
+var env = process.env.NODE_ENV || 'development';
 
 var entry = './app/bootstrap';
 var output = {
@@ -27,7 +30,7 @@ var resolve = {
 var plugins = [
     new webpack.DefinePlugin({
         'process.env': {
-            'NODE_ENV': JSON.stringify('production')
+            'NODE_ENV': JSON.stringify(env)
         }
     })
 ];
