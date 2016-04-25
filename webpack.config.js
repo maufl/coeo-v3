@@ -1,7 +1,8 @@
+var webpack = require('webpack');
 
 var entry = './app/bootstrap';
 var output = {
-    path: 'build',
+    path: '.',
     filename: 'bundle.js'
 }
 var loaders = [
@@ -23,12 +24,20 @@ var loaders = [
 var resolve = {
     extensions: ['', '.js', '.jsx', '.ts', '.tsx']
 }
+var plugins = [
+    new webpack.DefinePlugin({
+        'process.env': {
+            'NODE_ENV': JSON.stringify('production')
+        }
+    })
+];
 
 module.exports = {
     devtool: "#cheap-module-source-map",
     entry: entry,
     output: output,
     resolve: resolve,
+    plugins: plugins,
     module: {
         loaders: loaders
     },
