@@ -6,6 +6,6 @@ deploy:
 	git merge master
 	npm run build
 	git add -u
-	git commit
+	git commit -m "Update build"
 	git push
 	git checkout master

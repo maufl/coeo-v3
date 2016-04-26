@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import { push } from 'react-router-redux';
 import _ from 'lodash';
 
 import AppBar from 'material-ui/lib/app-bar';
@@ -41,17 +42,21 @@ class ApplicationBar extends React.Component {
             return {
                 text: fullName || friend,
                 searchText: `${friend} ${fullName}`,
+                user: friend,
                 value: (
-                    <MenuItem
-                        primaryText={fullName || friend}
-                        containerElement={<Link to={`/u/${friend}`} />}
-                    />
+                    <MenuItem primaryText={fullName || friend} />
                 )
             }
         })
         return (
             <AppBar title="Coeo" onLeftIconButtonTouchTap={() => this.props.onMenuIconTouchTap()}>
-                <AutoComplete name="search" dataSource={dataSource} filter={(searchText, key, item) => searchText !== '' && item.searchText.indexOf(searchText) !== -1} />
+                <AutoComplete
+                    name="search"
+                    dataSource={dataSource}
+                    filter={(searchText, key, item) => searchText !== '' && item.searchText.indexOf(searchText) !== -1}
+                    onEnterKeyDown={(e) => { e.preventDefault(); e.stopPropagation() }}
+                    onNewRequest={(user) => this.props.navigateToUser(typeof user === 'string' ? user : user.user)}
+                />
             </AppBar>
         );
     }
@@ -84,7 +89,8 @@ const mapDispatchToProps = (dispatch, props) => {
         loadFriends: (user, friendList) => {
             dispatch(maybeGet(`${user}/cfg/groups/friends`));
             Object.keys(friendList || {}).forEach( friend => dispatch(maybeGet(`${friend}/soc/me`)) );
-        }
+        },
+        navigateToUser: (user) => dispatch(push(`/u/${user}`))
     };
 }
 
