@@ -1,8 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { VBox } from 'react-layout-components';
+import { Box, VBox } from 'react-layout-components';
 import { Card, CardText, CardTitle } from 'material-ui/lib/card';
 import TextField from 'material-ui/lib/TextField';
+import FileUpload from 'material-ui/lib/svg-icons/file/file-upload';
+import { grey100, grey300 } from 'material-ui/lib/styles/colors';
 
 import { maybeGet, update } from '../state/objects';
 import { maybeRead, write } from '../state/attachments';
@@ -50,6 +52,16 @@ class SettingsPage extends React.Component {
     }
 
     render() {
+        let dropArea = (onDrop) => (<VBox center style={{border: `3px dashed ${grey300}`, borderRadius: 5, backgroundColor: grey100,  width: 200, height: 200}}
+            onDragOver={prevent}
+            onDrop={(e) => onDrop(e)}>
+            <div>Drop a picture</div>
+            <FileUpload />
+        </VBox>);
+        let img = (image, onDrop) => <img style={{maxWidth: 200, maxHeight: 200}}
+                                          src={image.url}
+                                          onDragOver={prevent}
+                                          onDrop={(e) => onDrop(e)} />
         return (
             <VBox center>
                 <Card style={{width: 900, marginTop: 16}}>
@@ -73,16 +85,16 @@ class SettingsPage extends React.Component {
                 <Card style={{width: 900, marginTop: 16}}>
                     <CardTitle actAsExpander={true} showExpandableButton={true} title="Photos" />
                     <CardText expandable={true}>
-                        <h5>Profile photo</h5>
-                        <img style={{maxWidth: 200, maxHeight: 200}}
-                             src={this.props.profilePhoto.url}
-                             onDragOver={prevent}
-                             onDrop={(e) => this.updateProfilePhoto(e)} />
-                        <h5>Cover photo</h5>
-                        <img style={{maxWidth: 200, maxHeight: 200}}
-                             src={this.props.coverPhoto.url}
-                             onDragOver={prevent}
-                             onDrop={(e) => this.updateCoverPhoto(e)} />
+                        <Box justifyContent="space-around">
+                            <VBox>
+                                <h5>Profile photo</h5>
+                                {this.props.profilePhoto.url ? img(this.props.profilePhoto, (e) => this.updateProfilePhoto(e)) : dropArea((e) => this.updateProfilePhoto(e))}
+                            </VBox>
+                            <VBox>
+                                <h5>Cover photo</h5>
+                                {this.props.coverPhoto.url ? img(this.props.coverPhoto, (e) => this.updateCoverPhoto(e)) : dropArea((e) => this.updateCoverPhoto(e))}
+                            </VBox>
+                        </Box>
                     </CardText>
                 </Card>
             </VBox>

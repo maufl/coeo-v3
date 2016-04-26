@@ -20,7 +20,15 @@ class UserAvatar extends React.Component {
             size
         } = this.props;
         if (profilePhoto) {
-            return <Avatar size={size} style={style} src={profilePhoto.url} />;
+            return <Avatar
+                       size={size}
+                       style={Object.assign({overflow: 'hidden'}, style)}>
+                <div style={{width: '100%',
+                             height: '100%',
+                             backgroundImage: `url('${profilePhoto.url}')`,
+                             backgroundSize: 'cover',
+                             backgroundPosition: 'center center'}} />
+            </Avatar>;
         } else {
             return <Avatar size={size} style={style} icon={<SocialPerson />} />;
         }
