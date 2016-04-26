@@ -26,8 +26,8 @@ class PostDialog extends React.Component {
             this.props.createPost(this.props.user, this.state.newPostText);
             this.setState({
                 newPostText: '',
-                open: false
-            })
+            });
+            this.props.onRequestClose();
         }
     }
 
