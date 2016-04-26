@@ -17,6 +17,10 @@ class PostDialog extends React.Component {
         };
     }
 
+    componentWillReceiveProps(nextProps) {
+        this.setState({open: nextProps.open});
+    }
+
     createPost() {
         if (this.state.newPostText) {
             this.props.createPost(this.props.user, this.state.newPostText);
@@ -29,14 +33,14 @@ class PostDialog extends React.Component {
 
     render() {
         let postActions = [
-            <FlatButton label="Cancel" secondary={true} onTouchTap={()=>this.setState({postDialogOpen: false})} />,
+            <FlatButton label="Cancel" secondary={true} onTouchTap={()=>this.props.onRequestClose()} />,
             <FlatButton label="Post" primary={true} onTouchTap={()=>this.createPost()} />
         ];
         return (
             <Dialog title="Submit new post"
                     modal={false}
                     open={this.state.open}
-                    onRequestClose={()=>this.setState({open: false})}
+                    onRequestClose={()=>this.props.onRequestClose()}
                     actions={postActions}>
                 <TextField
                     name="newPostText"
