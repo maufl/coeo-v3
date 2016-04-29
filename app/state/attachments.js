@@ -15,39 +15,43 @@ export function maybeRead(url) {
 
         if (!attachment || attachment.$state === LOADING_FAILED) {
             if (!object) {
-                fosp.get(url)
+                return fosp.get(url)
                     .then((object) => {
                         dispatch(getSucceeded(url, object));
-                        readWithObject(dispatch, url, object);
+                        return readWithObject(dispatch, url, object);
                     })
-                    .catch((e) => dispatch(readFailed(url, e)))
+                    .catch((e) => { dispatch(readFailed(url, e)); throw e })
             } else {
-                readWithObject(dispatch, url, object)
+                return readWithObject(dispatch, url, object);
             }
         }
+        return Promise.resolve();
     }
 }
 
 export function write(url, file) {
     return (dispatch) => {
-      let reader = new FileReader();
-      reader.onload = () => {
-          fosp.write(url, reader.result)
-              .then(() => dispatch(readSucceeded(url, file)))
-              .then(() => dispatch(update(url, { attachment: { name: file.name, size: file.size, type: file.type }})))
-      };
-      reader.onerror = (error) => { console.log(error) };
-      reader.readAsArrayBuffer(file);
+        let reader = new FileReader(), resolve, reject, promise = new Promise((rs, rj) => { resolve = rs, reject = rj });
+        reader.onload = () => {
+            fosp.write(url, reader.result)
+                .then(() => dispatch(readSucceeded(url, file)))
+                .then(() => dispatch(update(url, { attachment: { name: file.name, size: file.size, type: file.type }})))
+                .then(() => resolve())
+                .catch((e) => reject(e))
+        };
+        reader.onerror = (error) => { console.log(error) };
+        reader.readAsArrayBuffer(file);
+        return promise;
     }
 }
 
 function readWithObject(dispatch, url, object) {
-    fosp.read(url)
+    return fosp.read(url)
         .then((buffer) => {
             let blob = new File([buffer], object.attachment.name, { type: object.attachment.type });
             dispatch(readSucceeded(url, blob));
         })
-        .catch((e) => dispatch(readFailed(url, e)))
+        .catch((e) => { dispatch(readFailed(url, e)); throw e })
 }
 
 function read(url) {
