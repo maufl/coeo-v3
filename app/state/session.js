@@ -14,10 +14,10 @@ export function login(user: string, password: string) {
     return (dispatch) => {
         dispatch(loginRequest(user, password));
         let [username, host] = user.split('@');
-        fosp.open(host)
+        return fosp.open(host)
             .then(() => fosp.authenticate(user, password))
-            .then((resp) => dispatch(loginSuccess(user, password)))
-            .catch((error) => dispatch(loginFailure(user, error)));
+            .then((resp) => { dispatch(loginSuccess(user, password)); return resp })
+            .catch((error) => { dispatch(loginFailure(user, error)); throw error });
     }
 }
 

@@ -10,6 +10,8 @@ import { VBox } from 'react-layout-components';
 
 import { login } from '../state/session';
 
+import { notify } from '../components/snackbar_notifications';
+
 class LoginPage extends React.Component {
     constructor(props) {
         super(props);
@@ -23,7 +25,8 @@ class LoginPage extends React.Component {
         this.props.login(
             this.state.user,
             this.state.password
-        )
+        ).then(() => notify({ message: 'Successfully logged in!' }))
+            .catch((error) => notify({ message: `Unable to log in: ${error}` }))
     }
 
     render() {
