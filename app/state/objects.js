@@ -15,28 +15,29 @@ export function maybeGet(url) {
         if (object.$state !== LOADED && object.$state !== LOADING) {
             dispatch(get(url));
 
-            fosp.get(url)
-                .then((object) => dispatch(getSucceeded(url, object)))
-                .catch((e) => dispatch(getFailed(url, e)));
+            return fosp.get(url)
+                       .then((object) => { dispatch(getSucceeded(url, object)); return object })
+                       .catch((e) => { dispatch(getFailed(url, e)); throw e });
         }
     }
 }
 
 export function update(url, object) {
     return (dispatch) => {
-        fosp.patch(url, object)
-            .then((object) => dispatch(updated(url, object)))
+        return fosp.patch(url, object)
+                   .then((object) => { dispatch(updated(url, object)); return object })
     }
 }
 
 export function create(url, object) {
     return (dispatch) => {
-        fosp.create(url, object)
-            .then((object) => {
-                let parent = url.split('/').slice(0, -1).join('/');
-                dispatch(created(url, object));
-                dispatch(list(parent));
-            })
+        return fosp.create(url, object)
+                   .then((object) => {
+                       let parent = url.split('/').slice(0, -1).join('/');
+                       dispatch(created(url, object));
+                       dispatch(list(parent));
+                       return object;
+                   })
     }
 }
 
