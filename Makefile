@@ -3,7 +3,7 @@ all:
 
 deploy:
 	git checkout gh-pages
-	git merge master
+	git merge -m "Auto merge master" master
 	npm run build
 	git add -u
 	git commit -m "Update build"
