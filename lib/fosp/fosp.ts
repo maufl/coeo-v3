@@ -13,7 +13,11 @@ export class FospService extends EventEmitter {
 
     open(domain: string) {
         this.connecting = true;
-        return BackgroundConnection.open({scheme: 'ws', host: domain}).then((con: BackgroundConnection) => {
+        let options = {
+            host: domain,
+            scheme: domain.match(/^localhost(\.localdomain)?$/) ? 'ws' : 'wss'
+        };
+        return BackgroundConnection.open(options).then((con: BackgroundConnection) => {
             this.connection = con
             this.connecting = false;
             this.emit('connected');
@@ -83,7 +87,7 @@ export class FospService extends EventEmitter {
             return this.connection.sendRequest(req);
         }).then((response: Response) => {
             if (response.status === FAILED) {
-                return Promise.reject("Could not " + req.method + " " + req.resource + ", code " + response.code);
+                return Promise.reject(response);
             }
             return response.body;
         })

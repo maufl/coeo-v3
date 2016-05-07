@@ -31,8 +31,8 @@ class SettingsPage extends React.Component {
             user
         } = this.props;
         return (
-            <VBox center>
-                <Card style={{width: 900, marginTop: 16}}>
+            <VBox center style={{maxWidth: 900}}>
+                <Card style={{width: "100%", marginTop: 16}}>
                     <CardTitle actAsExpander={true} showExpandableButton={true} title="Personal information" />
                     <CardText expandable={true}>
                         <TextField
@@ -50,7 +50,7 @@ class SettingsPage extends React.Component {
                         />
                     </CardText>
                 </Card>
-                <Card style={{width: 900, marginTop: 16}}>
+                <Card style={{width: "100%", marginTop: 16}}>
                     <CardTitle actAsExpander={true} showExpandableButton={true} title="Photos" />
                     <CardText expandable={true}>
                         <Box justifyContent="space-around">

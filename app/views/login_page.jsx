@@ -25,8 +25,13 @@ class LoginPage extends React.Component {
         this.props.login(
             this.state.user,
             this.state.password
-        ).then(() => notify({ message: 'Successfully logged in!' }))
-            .catch((error) => notify({ message: `Unable to log in: ${error}` }))
+        ).catch((error) => {
+            if (error.status === 'FAILED' && error.code === 401) {
+                notify({ message: `Unable to log in: wrong password or user name.` })
+            } else {
+                notify({ message: `Unable to log in: ${error.message || error.code}` })
+            }
+        });
     }
 
     render() {
