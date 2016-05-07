@@ -81,7 +81,7 @@ export default class Connection extends EventEmitter {
     }
 
     static open(options: openOptions) {
-        var scheme = options.scheme || 'wss', host = options.host, port = options.port || 1337;
+        var scheme = options.scheme || 'wss', host = options.host, port = options.port || (scheme === 'ws' ? 1337 : 1338);
         return new Promise<Connection>((resolve: Function, reject: Function) => {
             var ws = new WebSocket(scheme + '://' + host + ':' + port);
             ws.binaryType = 'arraybuffer';
