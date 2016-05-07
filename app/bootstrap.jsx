@@ -7,10 +7,14 @@ import { Provider } from 'react-redux';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
+import ResponsiveProvider from './responsive_provider';
+
 document.addEventListener("DOMContentLoaded", function(event) {
     ReactDOM.render(
         <Provider store={store}>
-            {routes}
+        <ResponsiveProvider>
+        {routes}
+        </ResponsiveProvider>
         </Provider>
         , document.getElementById('container'));
 });

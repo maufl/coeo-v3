@@ -56,7 +56,7 @@ class PostCard extends React.Component {
         let time = moment(postCreated).fromNow();
         return (
             <Card style={style}>
-                <Box>
+                <Box column={this.context.phone}>
                     <Box column flex={1}>
                         <CardHeader
                             avatar={<UserAvatar user={author}/>}
@@ -82,6 +82,10 @@ class PostCard extends React.Component {
             </Card>
         );
     }
+}
+
+PostCard.contextTypes = {
+    phone: React.PropTypes.bool
 }
 
 const mapStateToProps = (state, props) => {

@@ -18,18 +18,18 @@ class MePage extends React.Component {
     render() {
         let { user } = this.props;
         if (! user) {
-            return;
+            return <div />;
         }
         return (
             <VBox maxWidth={900} style={{ margin: "8px auto"}}>
                 <UserBanner user={user} />
-                <VBox>
-                    <PostDialog open={this.state.postDialogOpen} onRequestClose={() => this.setState({postDialogOpen: false})} feedURL={`${user}/soc/feed/blog`} />
-                    <FloatingActionButton style={{position: "absolute", bottom: 32, right: 32}} onTouchTap={() => this.setState({postDialogOpen: true})}>
-                        <ContentAdd />
-                    </FloatingActionButton>
-                    <Feed feedURL={`${user}/soc/feed/blog`} />
-                </VBox>
+                <PostDialog open={this.state.postDialogOpen} onRequestClose={() => this.setState({postDialogOpen: false})} feedURL={`${user}/soc/feed/blog`} />
+                <FloatingActionButton style={{position: "absolute", bottom: 32, right: 32}} onTouchTap={() => this.setState({postDialogOpen: true})}>
+                    <ContentAdd />
+                </FloatingActionButton>
+                <Feed
+                    phone={this.context.phone} // TODO: remove this once context works properly, right now it is needed to force an update
+                    feedURL={`${user}/soc/feed/blog`} />
             </VBox>
         );
     }
