@@ -24,7 +24,7 @@ export default class AccountMenu extends React.Component {
             ];
         } else {
             items = [
-                <MenuItem key="login" innerDivStyle={{justifyContent: 'inherit'}} ontainerElement={<Link to="/login" />} primaryText="Login" />,
+                <MenuItem key="login" innerDivStyle={{justifyContent: 'inherit'}} containerElement={<Link to="/login" />} primaryText="Login" />,
                 <MenuItem key="signup" innerDivStyle={{justifyContent: 'inherit'}} containerElement={<Link to="/signup" />} primaryText="Signup" />
             ];
         }
