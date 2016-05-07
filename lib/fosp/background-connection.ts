@@ -97,7 +97,7 @@ class BackgroundConnection extends EventEmitter {
         this.pendingRequests[seq] = defer;
         defer.timeoutHandle = setTimeout(() => {
             delete this.pendingRequests[seq];
-            defer.reject('timeout');
+            defer.reject({ status: 'ERROR', message: 'timeout' });
         }, this.requestTimeout);
         this.sendMessage(req, seq);
         return promise;
