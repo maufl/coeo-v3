@@ -18,6 +18,7 @@ import { maybeList } from '../state/children';
 
 import UserAvatar from './user_avatar';
 import Comment from './comment';
+import CommentsList from './comments_list';
 
 class PostCard extends React.Component {
     constructor(props) {
@@ -42,6 +43,7 @@ class PostCard extends React.Component {
         let {
             style,
             comments,
+            postURL,
             isPhone,
             post: {
                 created: postCreated,
@@ -70,7 +72,7 @@ class PostCard extends React.Component {
                         </CardText>
                     </Box>
                     <Box column flex={1} style={{background: grey100, borderLeft: isPhone ? null : `1px solid ${grey300}`, borderTop: isPhone ? `1px solid ${grey300}` : null}}>
-                        {(comments || []).map((commentURL) => <Comment commentURL={commentURL} />)}
+            <CommentsList postURL={postURL} />
                         { comments && comments.length > 0 ? <Divider /> : null }
                         <CardText>
                             <TextField name="newCommentText" multiLine={true} rows={2} maxRows={4}

@@ -4,9 +4,8 @@ import ReactMarkdown from 'react-markdown';
 
 import moment from 'moment';
 
-import { Card, CardText, CardHeader } from 'material-ui/lib/card';
-
-import { VBox } from 'react-layout-components';
+import ListItem from 'material-ui/lib/lists/list-item';
+import Colors from 'material-ui/lib/styles/colors';
 
 import { maybeGet } from '../state/objects';
 
@@ -34,17 +33,12 @@ class Comment extends React.Component {
         } = this.props;
         let time = moment(commentCreated).fromNow();
         return (
-            <VBox style={{style}}>
-                <CardHeader
-                    avatar={<UserAvatar size={32} user={author}/>}
-                    title={authorName}
-                    subtitle={time}
-                    style={{paddingBottom: 0}} />
-                <CardText
-                    style={{paddingTop: 0}}>
-                    <ReactMarkdown source={text || ''}/>
-                </CardText>
-            </VBox>
+            <ListItem
+                disabled
+                leftAvatar={<UserAvatar size={32} user={author} />}
+                primaryText={<span>{authorName}&nbsp;<span style={{fontSize: '0.8em', color: Colors.lightBlack}}>{time}</span></span>}
+                secondaryText={<ReactMarkdown source={text || ''} />}
+            />
         );
     }
 }
