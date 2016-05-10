@@ -27,9 +27,7 @@ class MePage extends React.Component {
                 <FloatingActionButton style={{position: "absolute", bottom: 32, right: 32, zIndex: 10}} onTouchTap={() => this.setState({postDialogOpen: true})}>
                     <ContentAdd />
                 </FloatingActionButton>
-                <Feed
-                    phone={this.context.phone} // TODO: remove this once context works properly, right now it is needed to force an update
-                    feedURL={`${user}/soc/feed/blog`} />
+                <Feed feedURL={`${user}/soc/feed/blog`} />
             </VBox>
         );
     }
