@@ -31,7 +31,7 @@ class UserBanner extends React.Component {
         let actions;
         if (coverPhoto) {
            mediaContent = <div style={{
-                    maxWidth: 900,
+                    width: 900,
                     height: 200,
                     backgroundImage: 'url(' + coverPhoto.url + ')',
                     backgroundSize: "cover",

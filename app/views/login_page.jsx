@@ -36,10 +36,11 @@ class LoginPage extends React.Component {
 
     render() {
         return (
-            <VBox fit alignItems="center" alignSelf="center" justifyContent="center">
+            <VBox fit flex={1} alignItems="center" alignSelf="center" justifyContent="center">
                 <Avatar icon={<SocialPerson />} /><br />
                 <TextField
                     floatingLabelText="User name"
+                    type="email"
                     value={this.state.user}
                     onChange={(e) => {this.setState({user: e.target.value})}}/>
                 <br />
@@ -47,7 +48,8 @@ class LoginPage extends React.Component {
                     floatingLabelText="Password"
                     type="password"
                     value={this.state.password}
-                    onChange={(e) => {this.setState({password: e.target.value})}} />
+                    onChange={(e) => {this.setState({password: e.target.value})}}
+                    onEnterKeyDown={() => this.login()}/>
                 <br />
                 <RaisedButton primary={true} label="Login" onMouseUp={()=>{this.login()}}/><br />
             </VBox>

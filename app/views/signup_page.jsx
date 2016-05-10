@@ -36,10 +36,11 @@ class SignupPage extends React.Component {
 
     render() {
         return (
-            <VBox fit alignItems="center" alignSelf="center" justifyContent="center">
+            <VBox fit flex={1} alignItems="center" alignSelf="center" justifyContent="center">
                 <Avatar icon={<SocialPerson />} /><br />
                 <TextField
                     floatingLabelText="User name"
+                    type="email"
                     value={this.state.user}
                     onChange={(e) => {this.setState({user: e.target.value})}}/>
                 <br />
