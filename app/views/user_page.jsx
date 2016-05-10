@@ -12,20 +12,23 @@ class UserPage extends React.Component {
     }
 
     render() {
-        let { user } = this.props.params;
+        let {
+            params: { user },
+            isPhone
+        } = this.props;
         return (
-            <VBox maxWidth={900} style={{ margin: "8px auto"}}>
+            <div style={{ margin: "8px auto", maxWidth: 900, width: isPhone ? '100%' : null }}>
                 <UserBanner user={user} />
                 <VBox>
                     <Feed feedURL={`${user}/soc/feed/blog`} />
                 </VBox>
-            </VBox>
+            </div>
         );
     }
 }
 
 const mapStateToProps = (state) => {
-    return {};
+    return { isPhone: state.responsive.isPhone };
 }
 
 const mapDispatchToProps = (dispatch, props) => {

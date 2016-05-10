@@ -28,10 +28,11 @@ class SettingsPage extends React.Component {
 
     render() {
         let {
-            user
+            user,
+            isPhone
         } = this.props;
         return (
-            <VBox center style={{maxWidth: 900}}>
+            <div style={{maxWidth: 900, width: isPhone ? '100%' : null, margin: '8px auto'}}>
                 <Card style={{width: "100%", marginTop: 16}}>
                     <CardTitle actAsExpander={true} showExpandableButton={true} title="Personal information" />
                     <CardText expandable={true}>
@@ -65,7 +66,7 @@ class SettingsPage extends React.Component {
                         </Box>
                     </CardText>
                 </Card>
-            </VBox>
+            </div>
         );
     }
 }
@@ -78,7 +79,8 @@ const mapStateToProps = (state) => {
     return {
         user: user,
         me: state.objects[user+'/soc/me'],
-        motto: state.objects[user+'/soc/me/motto']
+        motto: state.objects[user+'/soc/me/motto'],
+        isPhone: state.responsive.isPhone
     };
 }
 
