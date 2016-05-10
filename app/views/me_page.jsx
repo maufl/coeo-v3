@@ -16,20 +16,18 @@ class MePage extends React.Component {
     }
 
     render() {
-        let { user } = this.props;
+        let { user, isPhone } = this.props;
         if (! user) {
             return <div />;
         }
         return (
-            <VBox maxWidth={900} style={{ margin: "8px auto"}}>
+            <VBox maxWidth={900} width={isPhone ? '100%' : null} style={{ margin: "8px auto"}}>
                 <UserBanner user={user} />
                 <PostDialog open={this.state.postDialogOpen} onRequestClose={() => this.setState({postDialogOpen: false})} feedURL={`${user}/soc/feed/blog`} />
                 <FloatingActionButton style={{position: "absolute", bottom: 32, right: 32, zIndex: 10}} onTouchTap={() => this.setState({postDialogOpen: true})}>
                     <ContentAdd />
                 </FloatingActionButton>
-                <Feed
-                    phone={this.context.phone} // TODO: remove this once context works properly, right now it is needed to force an update
-                    feedURL={`${user}/soc/feed/blog`} />
+                <Feed feedURL={`${user}/soc/feed/blog`} />
             </VBox>
         );
     }
@@ -37,7 +35,8 @@ class MePage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        user: state.session.user
+        user: state.session.user,
+        isPhone: state.responsive.isPhone
     };
 }
 

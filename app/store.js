@@ -7,12 +7,14 @@ import { session, LOGIN_SUCCESS } from './state/session';
 import { objects } from './state/objects';
 import { attachments } from './state/attachments';
 import { children } from './state/children';
+import { responsive } from './state/responsive';
 
 let reducers = combineReducers({
     session,
     objects,
     attachments,
     children,
+    responsive,
     routing: routerReducer
 });
 

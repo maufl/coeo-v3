@@ -18,6 +18,7 @@ import { maybeList } from '../state/children';
 
 import UserAvatar from './user_avatar';
 import Comment from './comment';
+import CommentsList from './comments_list';
 
 class PostCard extends React.Component {
     constructor(props) {
@@ -42,6 +43,8 @@ class PostCard extends React.Component {
         let {
             style,
             comments,
+            postURL,
+            isPhone,
             post: {
                 created: postCreated,
                 owner: author,
@@ -56,7 +59,7 @@ class PostCard extends React.Component {
         let time = moment(postCreated).fromNow();
         return (
             <Card style={style}>
-                <Box column={this.context.phone}>
+                <Box column={isPhone}>
                     <Box column flex={1}>
                         <CardHeader
                             avatar={<UserAvatar user={author}/>}
@@ -68,8 +71,8 @@ class PostCard extends React.Component {
                             <ReactMarkdown source={text || ''}/>
                         </CardText>
                     </Box>
-                    <Box column flex={1} style={{background: grey100, borderLeft: `1px solid ${grey300}`}}>
-                        {(comments || []).map((commentURL) => <Comment commentURL={commentURL} />)}
+                    <Box column flex={1} style={{background: grey100, borderLeft: isPhone ? null : `1px solid ${grey300}`, borderTop: isPhone ? `1px solid ${grey300}` : null}}>
+            <CommentsList postURL={postURL} />
                         { comments && comments.length > 0 ? <Divider /> : null }
                         <CardText>
                             <TextField name="newCommentText" multiLine={true} rows={2} maxRows={4}
@@ -84,18 +87,15 @@ class PostCard extends React.Component {
     }
 }
 
-PostCard.contextTypes = {
-    phone: React.PropTypes.bool
-}
-
 const mapStateToProps = (state, props) => {
     let post = state.objects[props.postURL],
         comments = state.children[props.postURL],
+        isPhone = state.responsive.isPhone,
         author;
     if (post) {
         author = state.objects[`${post.owner}/soc/me`];
     }
-    return { post, author, comments };
+    return { post, author, comments, isPhone };
 }
 
 const mapDispatchToProps = (dispatch, props) => {
