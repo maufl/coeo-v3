@@ -7,12 +7,18 @@ import _ from 'lodash';
 import AppBar from 'material-ui/lib/app-bar';
 import AutoComplete from 'material-ui/lib/auto-complete';
 import MenuItem from 'material-ui/lib/menus/menu-item';
+import IconButton from 'material-ui/lib/icon-button';
+import ActionSearch from 'material-ui/lib/svg-icons/action/search';
+import Colors from 'material-ui/lib/styles/colors';
 
 import { maybeGet } from '../state/objects';
 
 class ApplicationBar extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            searchOpen: false
+        }
     }
 
     componentWillMount() {
@@ -50,13 +56,15 @@ class ApplicationBar extends React.Component {
         })
         return (
             <AppBar title="Coeo" onLeftIconButtonTouchTap={() => this.props.onMenuIconTouchTap()}>
+                {this.state.searchOpen ?
                 <AutoComplete
                     name="search"
                     dataSource={dataSource}
                     filter={(searchText, key, item) => searchText !== '' && item.searchText.indexOf(searchText) !== -1}
                     onEnterKeyDown={(e) => { e.preventDefault(); e.stopPropagation() }}
-                    onNewRequest={(user) => this.props.navigateToUser(typeof user === 'string' ? user : user.user)}
-                />
+                    onNewRequest={(user) => { this.props.navigateToUser(typeof user === 'string' ? user : user.user); this.setState({searchOpen: false}) }} />
+                : null}
+                <IconButton iconStyle={{height: 40, width: 40}} onClick={()=>this.setState({searchOpen: true})}><ActionSearch color={Colors.white} /></IconButton>
             </AppBar>
         );
     }
